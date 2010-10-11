@@ -9,7 +9,7 @@
 # We'll assume running hudson under the default username
 hudson_user = node[:users].first[:username]
 hudson_port = 8082
-hudson_home = "/opt/hudson"
+hudson_home = "/data/hudson-ci"
 hudson_pid  = "#{hudson_home}/tmp/pid"
 
 %w[logs tmp war .].each do |dir|
@@ -27,7 +27,7 @@ remote_file "#{hudson_home}/hudson.war" do
   owner hudson_user
   group hudson_user
   backup 0
-  not_if { FileTest.exists?("/opt/hudson/hudson.war") }
+  not_if { FileTest.exists?("#{hudson_home}/hudson.war") }
 end
 
 template "/etc/init.d/hudson" do

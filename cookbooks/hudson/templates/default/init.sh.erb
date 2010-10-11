@@ -11,7 +11,7 @@ NAME=Hudson-CI
 
 start() {
   ebegin "Starting $NAME"
-  export HUDSON_HOME
+  export HUDSON_HOME=${HUDSON_HOME}
   start-stop-daemon -b --start --make-pidfile --pidfile $PIDFILE --chuid $RUN_AS --exec $COMMAND -- $ARGUMENTS &>$HUDSON_HOME/logs/hudson_log
   eend $?
 }
