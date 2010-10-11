@@ -45,5 +45,5 @@ template "/etc/init.d/hudson" do
 end
 
 execute "ensure-hudson-is-running" do
-  command "/etc/init.d/hudson start && ps aux | grep `cat #{hudson_pid}`"
+  command "/etc/init.d/hudson restart && /etc/init.d/hudson status | grep started && ps aux | grep `cat #{hudson_pid}`"
 end
