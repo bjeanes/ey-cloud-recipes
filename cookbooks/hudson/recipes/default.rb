@@ -8,8 +8,9 @@
 
 # We'll assume running hudson under the default username
 hudson_user = node[:users].first[:username]
+hudson_port = 8082
 
-%w[logs tmp war].each do |dir|
+%w[logs tmp war .].each do |dir|
   directory "/opt/hudson/#{dir}" do
     owner hudson_user
     group hudson_user
@@ -32,7 +33,7 @@ template "/etc/init.d/hudson" do
   owner "root"
   group "root"
   mode 0755
-  variables(:hudson_user => hudson_user)
+  variables(:user => hudson_user, :port => hudson_port)
   not_if { FileTest.exists?("/etc/init.d/hudson") }
 end
 
