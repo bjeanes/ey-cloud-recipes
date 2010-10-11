@@ -2,7 +2,7 @@ PIDFILE=/opt/hudson/cc.pid
 HUDSON_HOME=/opt/hudson/
 COMMAND=/usr/bin/java
 ARGUMENTS="-Djava.io.tmpdir=/opt/hudson/tmp -jar /opt/hudson/hudson.war --webroot=/opt/hudson/war --httpPort=8082 ajp13ListenAddress=127.0.0.1"
-RUN_AS=<%= hudson_user %>
+RUN_AS=<%= @hudson_user %>
 NAME=Hudson-CI
 
 start() {

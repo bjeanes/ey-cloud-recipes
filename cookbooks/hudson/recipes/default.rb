@@ -13,7 +13,7 @@ hudson_user = node[:users].first[:username]
   directory "/opt/hudson/#{dir}" do
     owner hudson_user
     group hudson_user
-    mode  '0755' unless dir == "war"
+    mode  0755 unless dir == "war"
     action :create
     recursive true
   end
@@ -31,5 +31,11 @@ template "/etc/init.d/hudson" do
   source "init.sh.erb"
   owner "root"
   group "root"
+  mode 0755
   variables(:hudson_user => hudson_user)
   not_if { FileTest.exists?("/etc/init.d/hudson") }
+end
+
+execute "ensure-hudson-is-running" do
+  command "/etc/init.d/hudson start && ps aux | grep `cat /opt/hudson/cc.pid`"
+end
