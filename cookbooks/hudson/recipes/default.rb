@@ -6,9 +6,14 @@
 # Using manual hudson for now not hudson gem. No ebuild seems to exist.
 # Based on http://bit.ly/9Y852l
 
+# You can use this in combination with http://github.com/bjeanes/ey_hudson_proxy
+# to serve hudson publicly on a Hudson-only EY instance. This is so you don't have to
+# find a simple app to run on the instance in lieu of an actual staging/production site.
+# Alternatively, set up nginx asa reverse proxy manually.
+
 # We'll assume running hudson under the default username
 hudson_user = node[:users].first[:username]
-hudson_port = 8082
+hudson_port = 8082 # change this in your proxy if modified
 hudson_home = "/data/hudson-ci"
 hudson_pid  = "#{hudson_home}/tmp/pid"
 
