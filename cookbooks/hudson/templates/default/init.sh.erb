@@ -2,16 +2,16 @@
 
 # Start/stop script for hudson
 
-PIDFILE=/opt/hudson/tmp/pid
-HUDSON_HOME=/opt/hudson/
+PIDFILE=<%= @pid %>
+HUDSON_HOME=<%= @home %>
 COMMAND=/usr/bin/java
-ARGUMENTS="-Djava.io.tmpdir=/opt/hudson/tmp -jar /opt/hudson/hudson.war --webroot=/opt/hudson/war --httpPort=<%= @port %> ajp13ListenAddress=127.0.0.1"
+ARGUMENTS="-Djava.io.tmpdir=${HUDSON_HOME}/tmp -jar ${HUDSON_HOME}/hudson.war --webroot=${HUDSON_HOME}/war --httpPort=<%= @port %> ajp13ListenAddress=127.0.0.1"
 RUN_AS=<%= @user %>
 NAME=Hudson-CI
 
 start() {
   ebegin "Starting $NAME"
-  export HUDSON_HOME=/opt/hudson
+  export HUDSON_HOME
   start-stop-daemon -b --start --make-pidfile --pidfile $PIDFILE --chuid $RUN_AS --exec $COMMAND -- $ARGUMENTS &>$HUDSON_HOME/logs/hudson_log
   eend $?
 }
