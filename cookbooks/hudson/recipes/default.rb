@@ -49,6 +49,21 @@ template "/etc/init.d/hudson" do
   not_if { FileTest.exists?("/etc/init.d/hudson") }
 end
 
+template "/data/nginx/servers/hudson_reverse_proxy.conf" do
+  source "proxy.conf.erb"
+  owner hudson_user
+  group hudson_user
+  mode 0644
+  variables(
+    :port => hudson_port
+  )
+  not_if { FileTest.exists?("/data/nginx/servers/hudson_reverse_proxy.conf") }
+end
+
 execute "ensure-hudson-is-running" do
-  command "/etc/init.d/hudson restart && /etc/init.d/hudson status | grep started && ps aux | grep `cat #{hudson_pid}`"
+  command "/etc/init.d/hudson restart"
+end
+
+execute "Restart nginx" do
+  command "/etc/init.d/nginx restart"
 end
