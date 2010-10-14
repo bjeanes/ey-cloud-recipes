@@ -16,8 +16,9 @@ hudson_user = node[:users].first[:username]
 hudson_port = 8082 # change this in your proxy if modified
 hudson_home = "/data/hudson-ci"
 hudson_pid  = "#{hudson_home}/tmp/pid"
+plugins     = %w[git github rake ruby greenballs]
 
-%w[logs tmp war .].each do |dir|
+%w[logs tmp war plugins .].each do |dir|
   directory "#{hudson_home}/#{dir}" do
     owner hudson_user
     group hudson_user
@@ -31,7 +32,6 @@ remote_file "#{hudson_home}/hudson.war" do
   source "http://hudson-ci.org/latest/hudson.war"
   owner hudson_user
   group hudson_user
-  backup 0
   not_if { FileTest.exists?("#{hudson_home}/hudson.war") }
 end
 
@@ -47,6 +47,16 @@ template "/etc/init.d/hudson" do
     :pid  => hudson_pid
   )
   not_if { FileTest.exists?("/etc/init.d/hudson") }
+end
+
+plugins.each do |plugin|
+  remote_file "#{hudson_home}/plugins/#{plugin}.hpi" do
+    source "http://hudson-ci.org/latest/#{plugin}.hpi"
+    owner hudson_user
+    group hudson_user
+    not_if { FileTest.exists?("#{hudson_home}/plugins/#{plugin}.hpi") }
+  end
+
 end
 
 template "/data/nginx/servers/hudson_reverse_proxy.conf" do
