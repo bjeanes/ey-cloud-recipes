@@ -9,6 +9,7 @@
 # * Customise the build steps for the app based on the "migrate" field of the app in the instance (usually "rake db:migrate")
 # * Add account name to labels (currently not available in the dna.json though)
 # * Should we use internal EC2 hostnames?
+# * Only add the slaves and nodes if they aren't already on the master
 
 # Config
 master_hostname = "ec2-184-73-167-68.compute-1.amazonaws.com"
