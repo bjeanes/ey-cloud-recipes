@@ -1,5 +1,3 @@
-require_recipe "hudson"
-
 #execute "testing" do
 #  command %Q{
 #    echo "i ran at #{Time.now}" >> /root/cheftime
@@ -64,3 +62,9 @@ require_recipe "hudson"
 
 #uncomment to include the eybackup_verbose recipe
 #require_recipe "eybackup_verbose"
+
+#uncomment to include the hudson_master recipe
+#require_recipe "hudson_master"
+
+#uncomment to include the hudson_slave recipe
+#require_recipe "hudson_slave"
